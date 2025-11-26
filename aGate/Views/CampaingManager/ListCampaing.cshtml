@@ -1,0 +1,84 @@
+﻿@* @model IEnumerable<aGate.Models.Campaing>
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3>Campaign List</h3>
+        <a href="/CampaingManager/AddCampaing" class="btn btn-primary">Add New Campaign</a>
+    </div>
+
+    <table class="table table-hover table-bordered align-middle">
+        <thead class="table-dark text-center">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Budget (₺)</th>
+                <th>Estimated Price (₺)</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var c in Model)
+            {
+                <tr class="text-center">
+                    <td>@c.campaingID</td>
+                    <td>@c.campaingName</td>
+                    <td>@c.campaingStartDate.ToString("yyyy-MM-dd")</td>
+                    <td>@c.campaingEndDate.ToString("yyyy-MM-dd")</td>
+                    <td>@c.campaingBudget</td>
+                    <td>@c.campaingEstimatedPrice</td>
+                    <td>
+                        @switch (c.campaingStatus)
+                        {
+                            case 0:
+                                <span class="badge bg-secondary">Active</span>
+                                ; break;
+                            case 1:
+                                <span class="badge bg-success">Passive</span>
+                                ; break;
+                        }
+                    </td>
+                    <td>
+                        <a href="/Campaing/Edit/@c.campaingID" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="/Campaing/Delete/@c.campaingID" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+ *@
+
+@model IEnumerable<aGate.Models.Campaing>
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3>Browse Campaigns</h3>
+        <a href="@Url.Action("AddCampaing", "CampaingManager")" class="btn btn-primary">Add New Campaign</a>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @foreach (var campaign in Model)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">@campaign.campaingName</h5>
+                        <p class="card-text">
+                            <strong>Start:</strong> @campaign.campaingStartDate.ToString("yyyy-MM-dd")<br />
+                            <strong>End:</strong> @campaign.campaingEndDate.ToString("yyyy-MM-dd")<br />
+                            <strong>Budget:</strong> ₺@campaign.campaingBudget<br />
+                            <strong>Estimated:</strong> ₺@campaign.campaingEstimatedPrice
+                        </p>
+                    </div>
+                    <div class="card-footer text-end">
+                        <a href="@Url.Action("Edit", "CampaingManager", new { id = campaign.campaingID })" class="btn btn-sm btn-warning me-2">Edit</a>
+                        <a href="@Url.Action("AssignStaff", "CampaingManager", new { id = campaign.campaingID })" class="btn btn-sm btn-info">Assign Staff</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

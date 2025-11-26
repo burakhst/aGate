@@ -1,39 +1,45 @@
-﻿<div class="container mt-5">
+﻿@{
+    Layout = "~/Views/Shared/staffLayout.cshtml";
+}
+<div class="container mt-5">
     <div class="card shadow-lg border-0 rounded-4">
         <div class="card-body p-5 text-center">
-            <h1 class="display-5 fw-bold text-primary">WELCOME TO CAMPAING MANAGER</h1>
+            <h1 class="display-5 fw-bold text-primary">WELCOME STAFF</h1>
             <p class="mt-3 fs-5 text-secondary">
-                Manage your campaigns, clients and staff efficiently.
+                Manage your tasks and complete daily operations efficiently.
             </p>
 
             <div class="row mt-5">
+
                 <div class="col-md-4 mb-3">
-                    <a href="/CampaingManager/ListCampaing" class="text-decoration-none">
+                    <a href="/Staff/CreateNote" class="text-decoration-none">
                         <div class="card shadow-sm border-0 rounded-4 py-4 hover-card">
-                            <h4 class="text-dark mb-0">📣 Campaigns</h4>
-                            <p class="text-secondary">View & manage campaigns</p>
+                            <h4 class="text-dark mb-0">📝 Create Note</h4>
+                            <p class="text-secondary">Add a new work note</p>
                         </div>
                     </a>
                 </div>
 
                 <div class="col-md-4 mb-3">
-                    <a href="/CampaingManager/ListClient" class="text-decoration-none">
+                    <a href="/Staff/AddAdvert" class="text-decoration-none">
                         <div class="card shadow-sm border-0 rounded-4 py-4 hover-card">
-                            <h4 class="text-dark mb-0">👤 Clients</h4>
-                            <p class="text-secondary">View & manage clients</p>
+                            <h4 class="text-dark mb-0">📢 Add Advert</h4>
+                            <p class="text-secondary">Create a new advertisement</p>
                         </div>
                     </a>
                 </div>
 
                 <div class="col-md-4 mb-3">
-                    <a href="/CampaingManager/ListStaff" class="text-decoration-none">
+                    <a href="/Staff/RecordCompletion" class="text-decoration-none">
                         <div class="card shadow-sm border-0 rounded-4 py-4 hover-card">
-                            <h4 class="text-dark mb-0">🧑‍💼 Staff</h4>
-                            <p class="text-secondary">View & assign staff</p>
+                            <h4 class="text-dark mb-0">✔️ Record Completion</h4>
+                            <p class="text-secondary">Mark your tasks as completed</p>
                         </div>
                     </a>
                 </div>
+
             </div>
+
 
         </div>
     </div>

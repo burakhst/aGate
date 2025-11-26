@@ -1,4 +1,10 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
+﻿window.addEventListener('DOMContentLoaded', (event) => {
+    const alertBox = document.getElementById('successAlert');
+    if (alertBox) {
+        setTimeout(() => {
+            // Bootstrap 5 alert objesi oluştur
+            const bsAlert = new bootstrap.Alert(alertBox);
+            bsAlert.close(); // otomatik kapat
+        }, 3000); // 3000ms = 3 saniye
+    }
+});

@@ -11,26 +11,90 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm sticky-top">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Default" asp-action="Index">aGate</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand fw-semibold text-white" asp-area="" asp-controller="CampaingManager" asp-action="Index">
+                    aGate
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                        aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="CampaingManager" asp-action="AddClient">Add Client</a>
+
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white" href="#" id="createDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Create
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-controller="CampaingManager" asp-action="AddClient">Add Client</a></li>
+                                <li><a class="dropdown-item" asp-controller="CampaingManager" asp-action="AddCampaing">Add Campaing</a></li>
+                                <li><a class="dropdown-item" asp-controller="CampaingManager" asp-action="AssignStaff">Assign Staff</a></li>
+                            </ul>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="CampaingManager" asp-action="AddCampaing">Add Camping</a>
+                            <a class="nav-link text-white" asp-controller="CampaingManager" asp-action="ListStaff">Staff</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-controller="CampaingManager" asp-action="ListCampaing">Campaings</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-controller="CampaingManager" asp-action="ListClient">Clients</a>
                         </li>
                     </ul>
+
+                    <form class="d-flex me-2" role="search" action="#" onsubmit="return false;">
+                        <input class="form-control form-control-sm me-2" type="search" placeholder="Search…" aria-label="Search">
+                        <button class="btn btn-outline-light btn-sm" type="button">Search</button>
+                    </form>
+
+                    <form class="d-flex" asp-area="" asp-controller="Default" asp-action="Index" method="post">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-light btn-sm">Logout</button>
+                    </form>
                 </div>
             </div>
         </nav>
     </header>
+
+    <style>
+        /* Navbar linkleri parlak beyaz */
+        .navbar .nav-link {
+            color: #ffffff !important;
+            font-weight: 500;
+            font-size: 1.05rem;
+        }
+
+            /* Hover: sarı vurgulu */
+            .navbar .nav-link:hover {
+                color: #ffeb3b !important;
+            }
+
+        /* Dropdown içi siyah metin (okunabilir) */
+        .dropdown-menu .dropdown-item {
+            color: #212529 !important;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+            .dropdown-menu .dropdown-item:hover {
+                background-color: #f0f0f0;
+            }
+
+        /* Brand daha görünür */
+        .navbar-brand {
+            font-size: 1.4rem;
+            color: #ffffff !important;
+        }
+    </style>
+
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

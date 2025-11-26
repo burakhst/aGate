@@ -1,11 +1,22 @@
 ﻿@{
-	Layout = "Layout";
+    Layout = "Layout";
 }
-<div class="container d-flex justify-content-center align-items-center">
-	<div class="border rounded p-5 bg-light shadow">
-		<h3 class="text-center mb-3">Welcome!</h3>
-		<p class="text-center">Select your role to continue...</p>
-		<a class="btn btn-danger" asp-area="" asp-controller="CampaingManager" asp-action="Index">Campaing Manager</a>
-		<button class="btn btn-info">Staff</button>
-	</div>
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 75vh;">
+    <div class="card shadow-lg border-0 rounded-4 p-5 text-center" style="max-width: 480px; width:100%;">
+        <h2 class="fw-bold text-primary mb-3">Welcome!</h2>
+        <p class="text-secondary mb-4">Select your role to continue</p>
+
+        <div class="d-grid gap-3">
+            <a class="btn btn-primary btn-lg fw-semibold"
+               asp-controller="CampaingManager" asp-action="Index">
+                Campaign Manager
+            </a>
+
+            <a class="btn btn-info btn-lg fw-semibold text-white"
+               asp-controller="Staff" asp-action="Index">
+                Staff Panel
+            </a>
+        </div>
+    </div>
 </div>

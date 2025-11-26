@@ -1,0 +1,56 @@
+﻿@model IEnumerable<aGate.Models.Staff>
+
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Staff List</h4>
+        </div>
+
+        <div class="card-body p-0">
+            <!-- Success message (TempData) -->
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div id="successAlert" class="alert alert-success alert-dismissible fade show m-3" role="alert">
+                    @TempData["SuccessMessage"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            @if (Model == null || !Model.Any())
+            {
+                <div class="p-4">
+                    <div class="alert alert-info mb-0">
+                        No staff found. Click
+                        <a href="@Url.Action("Create", "Staff")" class="alert-link">here</a> to add a new staff member.
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle text-center mb-0">
+                        <thead class="table-light">
+                            <tr class="text-center">
+                                <th  style="width:100px;">ID</th>
+                                <th>Name</th>
+                                <th>Lastname</th>
+                              
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var s in Model)
+                            {
+                                <tr class="text-center">
+                                    <td class="text-center">@s.staffID</td>
+                                    <td class="text-center">@s.staffName</td>
+                                    <td class="text-center">@s.staffLastName</td>
+                                   
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>

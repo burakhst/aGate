@@ -1,0 +1,56 @@
+﻿@if (TempData["SuccessMessage"] != null)
+{
+    <div id="successAlert" class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Add New Campaign</h4>
+        </div>
+        <div class="card-body p-4">
+            <form asp-action="AddCampaing" method="post">
+                <div class="mb-3">
+                    <label for="campaingName" class="form-label">Campaign Name</label>
+                    <input type="text" class="form-control" id="campaingName" name="campaingName" placeholder="Enter campaign name" required>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="campaingStartDate" class="form-label">Start Date</label>
+                        <input type="date" class="form-control" id="campaingStartDate" name="campaingStartDate" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="campaingEndDate" class="form-label">End Date</label>
+                        <input type="date" class="form-control" id="campaingEndDate" name="campaingEndDate" required>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="campaingBudget" class="form-label">Budget (₺)</label>
+                        <input type="number" class="form-control" id="campaingBudget" name="campaingBudget" placeholder="e.g. 5000" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="campaingEstimatedPrice" class="form-label">Estimated Price (₺)</label>
+                        <input type="number" class="form-control" id="campaingEstimatedPrice" name="campaingEstimatedPrice" placeholder="e.g. 4500" required>
+                    </div>
+                </div>
+@* 
+                <div class="mb-3">
+                    <label for="campaingStatus" class="form-label">Status</label>
+                    <select class="form-select" id="campaingStatus" name="campaingStatus">
+                        <option value="0">Active</option>
+                    </select>
+                </div> *@
+
+                <div class="text-end">
+                    <button type="submit" class="btn btn-success px-4">Save</button>
+                    <a href="/Campaign/Index" class="btn btn-secondary px-4">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
