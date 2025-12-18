@@ -2,41 +2,49 @@
 
 @if (TempData["SuccessMessage"] != null)
 {
-    <br />
-    <div id="successAlert" class="alert alert-success alert-dismissible fade show" role="alert">
-        @TempData["SuccessMessage"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+	<br />
+	<div id="successAlert" class="alert alert-success alert-dismissible fade show" role="alert">
+		@TempData["SuccessMessage"]
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
 }
 <div class="container mt-5" style="max-width:640px;">
-    <div class="card shadow-lg border-0 rounded-4">
-        <div class="card-header bg-primary text-white">
-            <h4 class="mb-0">Assign staff page</h4>
-        </div>
-        <div class="card-body p-4">
+	<div class="card shadow-lg border-0 rounded-4">
+		<div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+			<h4 class="mb-0">Assign Staff Page</h4>
 
-            <form asp-action="AssignStaff" method="post">
-                <div class="mb-3">
-                    <label class="form-label" for="SelectedCampaingID">Campaign</label>
-                    <select asp-for="SelectedCampaingID" asp-items="Model.CampaingList" class="form-select">
-                        <option value="0">-- Select a campaign --</option>
-                    </select>
-                    <span class="text-danger" asp-validation-for="SelectedCampaingID"></span>
-                </div>
+			<span class="text-white fs-5"
+				  role="button"
+				  data-bs-toggle="tooltip"
+				  data-bs-placement="left"
+				  title="Select a campaign and assign a staff member to it.">
+				<i class="bi bi-info-circle"></i>
+			</span>
+		</div>
+		<div class="card-body p-4">
 
-                <div class="mb-3">
-                    <label class="form-label" for="SelectedStaffID">Staff</label>
-                    <select asp-for="SelectedStaffID" asp-items="Model.StaffList" class="form-select">
-                        <option value="0">-- Select a staff --</option>
-                    </select>
-                    <span class="text-danger" asp-validation-for="SelectedStaffID"></span>
-                </div>
+			<form asp-action="AssignStaff" method="post">
+				<div class="mb-3">
+					<label class="form-label" for="SelectedCampaingID">Campaign</label>
+					<select asp-for="SelectedCampaingID" asp-items="Model.CampaingList" class="form-select">
+						<option value="0">-- Select a campaign --</option>
+					</select>
+					<span class="text-danger" asp-validation-for="SelectedCampaingID"></span>
+				</div>
 
-                <div class="text-end">
-                    <button type="submit" class="btn btn-success px-4">Assign</button>
-                    <a asp-action="Index" class="btn btn-secondary px-4">Cancel</a>
-                </div>
-            </form>
-        </div>
-    </div>
+				<div class="mb-3">
+					<label class="form-label" for="SelectedStaffID">Staff</label>
+					<select asp-for="SelectedStaffID" asp-items="Model.StaffList" class="form-select">
+						<option value="0">-- Select a staff --</option>
+					</select>
+					<span class="text-danger" asp-validation-for="SelectedStaffID"></span>
+				</div>
+
+				<div class="text-end">
+					<button type="submit" class="btn btn-success px-4">Assign</button>
+					<a asp-action="Index" class="btn btn-secondary px-4">Cancel</a>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>

@@ -1,0 +1,71 @@
+﻿@model aGate.Models.Campaing
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <br/>
+    <div class="alert alert-success alert-dismissible fade show">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Edit Campaing</h4>
+
+            <i class="bi bi-question-circle-fill"
+               data-bs-toggle="tooltip"
+               title="Update campaing information and save changes."></i>
+        </div>
+
+
+        <div class="card-body p-4">
+            <form asp-action="EditCampaing" method="post">
+
+                <input type="hidden" asp-for="campaingID" />
+
+                <div class="mb-3">
+                    <label asp-for="campaingName" class="form-label"></label>
+                    <input asp-for="campaingName" class="form-control" />
+                    <span asp-validation-for="campaingName" class="text-danger"></span>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="campaingStartDate" class="form-label"></label>
+                        <input asp-for="campaingStartDate"
+                               type="date"
+                               class="form-control"
+                               min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="campaingEndDate" class="form-label"></label>
+                        <input asp-for="campaingEndDate"
+                               type="date"
+                               class="form-control"
+                               min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="campaingBudget" class="form-label"></label>
+                        <input asp-for="campaingBudget" class="form-control" />
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="campaingEstimatedPrice" class="form-label"></label>
+                        <input asp-for="campaingEstimatedPrice" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="text-end">
+                    <button type="submit" class="btn btn-success px-4">Update</button>
+                    <a asp-action="ListCampaing" class="btn btn-secondary px-4">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

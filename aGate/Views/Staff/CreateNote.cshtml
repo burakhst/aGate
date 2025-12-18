@@ -1,52 +1,58 @@
-﻿
-@model aGate.Models.StaffNote
+﻿@model aGate.Models.StaffNote
 @{
-    Layout = "~/Views/Shared/staffLayout.cshtml";
+	Layout = "~/Views/Shared/staffLayout.cshtml";
 }
 
-<br />
 @if (TempData["SuccessMessage"] != null)
 {
-    <div id="successAlert" class="alert alert-success alert-dismissible fade show" role="alert">
-        @TempData["SuccessMessage"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+	<br />
+	<div id="successAlert" class="alert alert-success alert-dismissible fade show" role="alert">
+		@TempData["SuccessMessage"]
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
 }
 <div class="container mt-5" style="max-width: 650px;">
-    <div class="card shadow-lg border-0 rounded-4">
-        <div class="card-header bg-primary text-white">
-            <h4 class="mb-0">Create Note</h4>
-        </div>
+	<div class="card shadow-lg border-0 rounded-4">
+		<div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+			<h4 class="mb-0">Create Note</h4>
 
-        <div class="card-body p-4">
-            <form asp-action="CreateNote" method="post">
+			<span class="text-white fs-5"
+				  role="button"
+				  data-bs-toggle="tooltip"
+				  data-bs-placement="left"
+				  title="Write internal notes related to the selected staff member.">
+				<i class="bi bi-info-circle"></i>
+			</span>
+		</div>
+		<div class="card-body p-4">
+			<form asp-action="CreateNote" method="post">
 
-                <!-- Title -->
-                <div class="mb-3">
-                    <label class="form-label" for="Title">Title</label>
-                    <input type="text" class="form-control" id="Title" name="Title"
-                           placeholder="Enter note title" required />
-                </div>
+				<!-- Title -->
+				<div class="mb-3">
+					<label class="form-label" for="Title">Title</label>
+					<input type="text" class="form-control" id="Title" name="Title"
+						   placeholder="Enter note title" required />
+				</div>
 
-                <!-- Staff ID (textbox version) -->
-                <div class="mb-3">
-                    <label class="form-label">Staff</label>
-                    <select class="form-select" name="StaffID" asp-items="ViewBag.StaffList"></select>
-                </div>
+				<!-- Staff ID (textbox version) -->
+				<div class="mb-3">
+					<label class="form-label">Staff</label>
+					<select class="form-select" name="StaffID" asp-items="ViewBag.StaffList"></select>
+				</div>
 
-                <!-- Note -->
-                <div class="mb-3">
-                    <label class="form-label" for="NoteText">Note</label>
-                    <textarea class="form-control" id="NoteText" name="NoteText"
-                              rows="5" placeholder="Write your note here..." required></textarea>
-                </div>
+				<!-- Note -->
+				<div class="mb-3">
+					<label class="form-label" for="NoteText">Note</label>
+					<textarea class="form-control" id="NoteText" name="NoteText"
+							  rows="5" placeholder="Write your note here..." required></textarea>
+				</div>
 
-                <div class="text-end">
-                    <button type="submit" class="btn btn-success px-4">Save</button>
-                    <a href="/Staff/Index" class="btn btn-secondary px-4">Cancel</a>
-                </div>
+				<div class="text-end">
+					<button type="submit" class="btn btn-success px-4">Save</button>
+					<a href="/Staff/Index" class="btn btn-secondary px-4">Cancel</a>
+				</div>
 
-            </form>
-        </div>
-    </div>
+			</form>
+		</div>
+	</div>
 </div>

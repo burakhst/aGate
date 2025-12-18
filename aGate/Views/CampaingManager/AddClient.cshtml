@@ -8,10 +8,17 @@
 
 <div class="container mt-5">
     <div class="card shadow-lg border-0 rounded-4">
-        <div class="card-header bg-primary text-white">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
             <h4 class="mb-0">Add New Client</h4>
-        </div>
 
+            <span class="text-white fs-5"
+                  role="button"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="left"
+                  title="Use this form to add a new client to the system. Client information will be used in campaigns and reports.">
+                <i class="bi bi-info-circle"></i>
+            </span>
+        </div>
         <div class="card-body p-4">
             <form asp-action="AddClient" method="post">
                 <div class="mb-3">

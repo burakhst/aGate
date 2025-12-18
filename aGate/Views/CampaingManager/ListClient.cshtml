@@ -1,5 +1,13 @@
 ﻿@model IEnumerable<aGate.Models.Client>
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <br/>
+    <div id="successAlert" class="alert alert-success alert-dismissible fade show m-3" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
 <div class="container mt-5">
     <div class="card shadow-lg border-0 rounded-4">
         <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
@@ -8,14 +16,6 @@
         </div>
 
         <div class="card-body p-0">
-            <!-- Success message (TempData) -->
-            @if (TempData["SuccessMessage"] != null)
-            {
-                <div id="successAlert" class="alert alert-success alert-dismissible fade show m-3" role="alert">
-                    @TempData["SuccessMessage"]
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            }
 
             @if (Model == null || !Model.Any())
             {
@@ -47,9 +47,15 @@
                                     <td class="text-center">@client.clientAddress</td>
                                     <td class="text-center">@client.clientPhoneNumber</td>
                                     <td>
-                                        <a href="/Client/Edit/@client.clientID" class="btn btn-sm btn-warning me-2">Edit</a>
-                                        <a href="/Client/Delete/@client.clientID" class="btn btn-sm btn-danger"
-                                           onclick="return confirm('Are you sure?')">Delete</a>
+                                        <a href="/CampaingManager/EditClient/@client.clientID" class="btn btn-sm btn-warning me-2">Edit</a>
+                                        <form asp-action="DeleteClient" method="post" style="display:inline;">
+                                            <input type="hidden" name="id" value="@client.clientID" />
+                                            <button type="submit"
+                                                    class="btn btn-sm btn-danger"
+                                                    onclick="return confirm('Are you sure you want to delete this client?')">
+                                                Delete
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             }

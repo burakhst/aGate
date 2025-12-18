@@ -1,0 +1,50 @@
+﻿@model aGate.Models.Client
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <br />
+    <div id="successAlert" class="alert alert-success alert-dismissible fade show">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Edit Client</h4>
+
+            <i class="bi bi-question-circle-fill"
+               data-bs-toggle="tooltip"
+               title="Update client information and save changes."></i>
+        </div>
+
+        <div class="card-body p-4">
+            <form asp-action="EditClient" method="post">
+
+                <input type="hidden" asp-for="clientID" />
+
+                <div class="mb-3">
+                    <label asp-for="clientName" class="form-label"></label>
+                    <input asp-for="clientName" class="form-control" required />
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="clientAddress" class="form-label"></label>
+                    <input asp-for="clientAddress" type="text" class="form-control" required />
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="clientPhoneNumber" class="form-label"></label>
+                    <input asp-for="clientPhoneNumber" type="number" class="form-control" />
+                </div>
+
+                <div class="text-end">
+                    <button type="submit" class="btn btn-success px-4">Update</button>
+                    <a asp-action="ListClient" class="btn btn-secondary px-4">Cancel</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

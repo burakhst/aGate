@@ -7,8 +7,16 @@
 }
 <div class="container mt-5">
     <div class="card shadow-lg border-0 rounded-4">
-        <div class="card-header bg-primary text-white">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
             <h4 class="mb-0">Add New Campaign</h4>
+
+            <span class="text-white fs-5"
+                  role="button"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="left"
+                  title="Here you can create a new campaign. Please fill all fields carefully. Dates cannot be in the past.">
+                <i class="bi bi-info-circle"></i>
+            </span>
         </div>
         <div class="card-body p-4">
             <form asp-action="AddCampaing" method="post">
@@ -20,11 +28,11 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="campaingStartDate" class="form-label">Start Date</label>
-                        <input type="date" class="form-control" id="campaingStartDate" name="campaingStartDate" required>
+                        <input type="date" class="form-control" id="campaingStartDate" name="campaingStartDate" min="@DateTime.Now.ToString("yyyy-MM-dd")" required>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="campaingEndDate" class="form-label">End Date</label>
-                        <input type="date" class="form-control" id="campaingEndDate" name="campaingEndDate" required>
+                        <input type="date" class="form-control" id="campaingEndDate" name="campaingEndDate" min="@DateTime.Now.ToString("yyyy-MM-dd")" required>
                     </div>
                 </div>
 

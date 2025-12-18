@@ -1,0 +1,257 @@
+﻿<div id="agate-chat" class="agate-chat">
+    <div class="agate-chat__header">
+        <div class="agate-chat__title">aGate Assistant</div>
+        <button class="agate-chat__close" onclick="AgateChat.toggle()">×</button>
+    </div>
+
+    <div id="agate-chat-messages" class="agate-chat__messages"></div>
+
+    <div class="agate-chat__input">
+        <input id="agate-chat-input" type="text" placeholder="Type a message…" onkeydown="AgateChat.key(e=event)">
+        <button class="agate-chat__send" onclick="AgateChat.send()">Send</button>
+    </div>
+</div>
+
+<button id="agate-chat-fab" class="agate-chat__fab" onclick="AgateChat.toggle()">🤖</button>
+<style>
+    .agate-chat__fab {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: #0d6efd;
+        color: #fff;
+        border: none;
+        box-shadow: 0 6px 16px rgba(0,0,0,.2);
+        font-size: 24px;
+        z-index: 9999
+    }
+
+    .agate-chat {
+        position: fixed;
+        right: 20px;
+        bottom: 88px;
+        width: 340px;
+        height: 470px;
+        display: none;
+        flex-direction: column;
+        background: #fff;
+        border-radius: 14px;
+        box-shadow: 0 12px 28px rgba(0,0,0,.18);
+        z-index: 9999;
+        overflow: hidden
+    }
+
+    .agate-chat__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #0d6efd;
+        color: #fff;
+        padding: 10px 12px
+    }
+
+    .agate-chat__title {
+        font-weight: 600
+    }
+
+    .agate-chat__close {
+        background: transparent;
+        border: none;
+        color: #fff;
+        font-size: 22px;
+        cursor: pointer
+    }
+
+    .agate-chat__messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 12px;
+        background: #f6f7fb
+    }
+
+    .agate-chat__input {
+        display: flex;
+        gap: 8px;
+        padding: 10px;
+        border-top: 1px solid #e6e8f0;
+        background: #fff
+    }
+
+        .agate-chat__input input {
+            flex: 1;
+            padding: 10px 12px;
+            border: 1px solid #dbe0ea;
+            border-radius: 10px
+        }
+
+    .agate-chat__send {
+        background: #0d6efd;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        padding: 10px 14px;
+        cursor: pointer
+    }
+
+    /* Bubbles */
+    .agate-msg {
+        max-width: 78%;
+        padding: 10px 12px;
+        border-radius: 12px;
+        margin: 6px 0;
+        line-height: 1.35;
+        word-wrap: break-word;
+        white-space: pre-wrap
+    }
+
+    .agate-row {
+        display: flex
+    }
+
+        .agate-row.bot {
+            justify-content: flex-start
+        }
+
+        .agate-row.user {
+            justify-content: flex-end
+        }
+
+    .agate-msg.bot {
+        background: #e9f1ff;
+        color: #1f2d3d;
+        border-bottom-left-radius: 6px
+    }
+
+    .agate-msg.user {
+        background: #dff8d8;
+        color: #123;
+        border-bottom-right-radius: 6px
+    }
+
+    .agate-muted {
+        opacity: .85;
+        font-size: 12px;
+        margin-top: 2px
+    }
+</style>
+<script>
+    // ---- Her layout için farklı storage key üret ----
+    const layoutId = document.body.getAttribute("data-layout") || "default";
+    const AgateChatStoreKey = "agate_chat_history_" + layoutId;
+
+    const AgateChat = {
+        elWin: null, elMsg: null, elInp: null,
+
+        init() {
+            this.elWin = document.getElementById("agate-chat");
+            this.elMsg = document.getElementById("agate-chat-messages");
+            this.elInp = document.getElementById("agate-chat-input");
+
+            // Geçmişi yükle
+            const saved = sessionStorage.getItem(AgateChatStoreKey);
+            if (saved) {
+                try {
+                    JSON.parse(saved).forEach(m =>
+                        this.render(m.role, m.text, false)
+                    );
+                } catch { }
+                this.forceBottom();
+            } else {
+                // İlk giriş mesajı (layout’a göre farklı olabilir)
+                const welcome =
+                    layoutId === "staff"
+                        ? "Merhaba Staff! Size nasıl yardımcı olabilirim?"
+                        : "Merhaba! Kampanya yönetimi konusunda nasıl yardımcı olabilirim?";
+
+                const hello = { role: "bot", text: welcome };
+                this.push(hello);
+                this.render("bot", hello.text);
+                this.forceBottom();
+            }
+        },
+
+        toggle() {
+            const s = this.elWin.style;
+            s.display = (s.display === "flex") ? "none" : "flex";
+
+            if (s.display === "flex") {
+                setTimeout(() => {
+                    this.elInp.focus();
+                    this.forceBottom();
+                }, 60);
+            }
+        },
+
+        key(e) {
+            if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                this.send();
+            }
+        },
+
+        send() {
+            const txt = (this.elInp.value || "").trim();
+            if (!txt) return;
+
+            // user message
+            this.render("user", txt);
+            this.push({ role: "user", text: txt });
+            this.elInp.value = "";
+            this.forceBottom();
+
+            fetch('/Chatbot/Ask?question=' + encodeURIComponent(txt))
+                .then(r => r.text())
+                .then(ans => {
+                    const short =
+                        (ans && ans.length > 280)
+                            ? ans.slice(0, 280) + "…"
+                            : ans;
+
+                    this.render("bot", short);
+                    this.push({ role: "bot", text: short });
+                    this.forceBottom();
+                })
+                .catch(() => {
+                    const msg = "Bir hata oluştu. Lütfen tekrar deneyin.";
+                    this.render("bot", msg);
+                    this.push({ role: "bot", text: msg });
+                    this.forceBottom();
+                });
+        },
+
+        render(role, text, scroll = true) {
+            const row = document.createElement("div");
+            row.className = "agate-row " + (role === "user" ? "user" : "bot");
+
+            const bubble = document.createElement("div");
+            bubble.className = "agate-msg " + (role === "user" ? "user" : "bot");
+            bubble.textContent = text;
+
+            row.appendChild(bubble);
+            this.elMsg.appendChild(row);
+
+            if (scroll) this.forceBottom();
+        },
+
+        push(item) {
+            let arr = [];
+            try {
+                arr = JSON.parse(sessionStorage.getItem(AgateChatStoreKey)) || [];
+            } catch { }
+
+            arr.push(item);
+            sessionStorage.setItem(AgateChatStoreKey, JSON.stringify(arr));
+        },
+
+        // --- HER ZAMAN ALTA İNDİR FONKSİYONU ---
+        forceBottom() {
+            if (!this.elMsg) return;
+            this.elMsg.scrollTop = this.elMsg.scrollHeight;
+        }
+    };
+
+    window.addEventListener("DOMContentLoaded", () => AgateChat.init());
+</script>

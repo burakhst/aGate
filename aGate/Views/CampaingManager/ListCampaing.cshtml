@@ -52,11 +52,18 @@
  *@
 
 @model IEnumerable<aGate.Models.Campaing>
-
+@if (TempData["SuccessMessage"] != null)
+{
+    <br/>
+    <div id="successAlert" class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h3>Browse Campaigns</h3>
-        <a href="@Url.Action("AddCampaing", "CampaingManager")" class="btn btn-primary">Add New Campaign</a>
+        <a href="@Url.Action("AddCampaing", "CampaingManager")" class="btn btn-primary">Add New Campaing</a>
     </div>
 
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
@@ -74,7 +81,14 @@
                         </p>
                     </div>
                     <div class="card-footer text-end">
-                        <a href="@Url.Action("Edit", "CampaingManager", new { id = campaign.campaingID })" class="btn btn-sm btn-warning me-2">Edit</a>
+                        @if (@campaign.campaingEndDate < DateTime.Now)
+                        {
+                            <span class="badge bg-danger p-2">Kampanyanın Süresi Geçti</span>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("EditCampaing", "CampaingManager", new { id = campaign.campaingID })" class="btn btn-sm btn-warning me-2">Edit</a>
+                        }
                         <a href="@Url.Action("AssignStaff", "CampaingManager", new { id = campaign.campaingID })" class="btn btn-sm btn-info">Assign Staff</a>
                     </div>
                 </div>

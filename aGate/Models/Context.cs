@@ -14,6 +14,7 @@ namespace aGate.Models
         public DbSet<Staff> staffs { get; set; }
         public DbSet<CampaingStaff> CampaingStaffs { get; set; }
         public DbSet<StaffNote> StaffNotes { get; set; }
+        public DbSet<Advert> Adverts { get; set; }
 
     }
 }

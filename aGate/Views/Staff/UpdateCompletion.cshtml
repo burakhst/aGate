@@ -1,0 +1,109 @@
+﻿@model UpdateCompletionViewModel
+@{
+    Layout = "~/Views/Shared/staffLayout.cshtml";
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <br />
+    <div id="successAlert" class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+<div class="container mt-5" style="max-width:600px;">
+    <div class="card shadow border-0">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Record Completion</h4>
+
+            <span class="text-white fs-5"
+                  role="button"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="left"
+                  title="Select an advert and update its completion percentage.">
+                <i class="bi bi-info-circle"></i>
+            </span>
+        </div>
+
+        @TempData["ErrorMessage"]
+        <div class="card-body">
+            <form asp-action="UpdateCompletion" method="post">
+
+                <!-- Advert Dropdown -->
+                <div class="mb-3">
+                    <label class="form-label">Advert</label>
+                    <select asp-for="SelectedAdvertID"
+                            asp-items="Model.AdvertList"
+                            class="form-select"
+                            id="advertSelect"
+                            required>
+                        <option value="">-- Select Advert --</option>
+                    </select>
+                </div>
+
+                <!-- Completion Input -->
+                <div class="mb-3" id="completionBox" style="display:none;">
+                    <label class="form-label">State of Completion (%)</label>
+                    <input asp-for="StateOfCompletion"
+                           type="number"
+                           min="0"
+                           max="100"
+                           class="form-control"
+                           id="completionInput" />
+                </div>
+
+                <div class="text-end">
+                    <button type="submit" class="btn btn-success">
+                        Update Completion
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+<script>
+    document.getElementById("advertSelect").addEventListener("change", function () {
+        const advertId = this.value;
+        const input = document.getElementById("completionInput");
+
+        if (advertId == 0) {
+            input.value = "";
+            return;
+        }
+
+        fetch(`/Staff/GetCompletionByAdvert?advertId=${advertId}`)
+            .then(res => res.json())
+            .then(data => {
+                input.value = data ?? 0;
+            });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const advertSelect = document.getElementById("advertSelect");
+        const completionBox = document.getElementById("completionBox");
+        const completionInput = document.getElementById("completionInput");
+
+        advertSelect.addEventListener("change", function () {
+            const advertId = this.value;
+
+            // ❌ Advert seçimi kaldırıldıysa
+            if (!advertId) {
+                completionBox.style.display = "none";
+                completionInput.value = "";
+                return;
+            }
+
+            // ✅ Advert seçildiyse
+            fetch(`/Staff/GetCompletionByAdvert?advertId=${advertId}`)
+                .then(res => res.json())
+                .then(data => {
+                    completionBox.style.display = "block";
+                    completionInput.value = data ?? 0;
+                });
+        });
+
+    });
+</script>

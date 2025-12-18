@@ -1,0 +1,57 @@
+﻿@model aGate.Models.Advert
+@{
+	Layout = "~/Views/Shared/staffLayout.cshtml";
+}
+
+@if (TempData["Success"] != null)
+{
+	<br />
+	<div class="alert alert-success">
+		@TempData["Success"]
+	</div>
+}
+
+<div class="container mt-5" style="max-width: 650px;">
+	<div class="card shadow-lg border-0 rounded-4">
+		  <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Add New Advert</h4>
+
+            <span class="text-white fs-5"
+                  role="button"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="left"
+				  title="Create a new advertisement with start date and completion rate.">
+                <i class="bi bi-info-circle"></i>
+            </span>
+        </div>
+		<form asp-action="AddAdvert" method="post" class="card p-4 shadow-sm">
+
+			<div class="mb-3">
+				<label class="form-label">Advert Name</label>
+				<input asp-for="AdvertName" class="form-control" />
+				<span asp-validation-for="AdvertName" class="text-danger"></span>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label">Start Date</label>
+				<input asp-for="StartDate" type="date" class="form-control" min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+				<span asp-validation-for="StartDate" class="text-danger"></span>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label">Record Completion (%)</label>
+				<input asp-for="RecordCompletion" type="number" class="form-control" />
+				<span asp-validation-for="RecordCompletion" class="text-danger"></span>
+			</div>
+			<div class="text-end">
+				<button type="submit" class="btn btn-info">
+					Save Advert
+				</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}
